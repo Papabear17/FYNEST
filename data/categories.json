@@ -1,0 +1,22 @@
+[
+    {
+        "id": "all",
+        "name": "All Collection"
+    },
+    {
+        "id": "t-shirts",
+        "name": "T-Shirts"
+    },
+    {
+        "id": "outerwear",
+        "name": "Outerwear"
+    },
+    {
+        "id": "bottoms",
+        "name": "Bottoms"
+    },
+    {
+        "id": "accessories",
+        "name": "Accessories"
+    }
+]

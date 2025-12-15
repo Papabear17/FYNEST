@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FYNEST | Streetwear Essentials</title>
+
+  <!-- Three.js CDN -->
+  <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+  <script src="https://unpkg.com/three@0.160.0/examples/js/controls/OrbitControls.js"></script>
+
+  <style>
+    /* =========================
+       FYNEST - LUXURY THEME
+       ========================= */
+    :root {
+      --bg: #05060a;
+      --bg-elevated: #0b0d13;
+      --bg-soft: #10121a;
+      --accent: #e4b98f;
+      --accent-soft: rgba(228, 185, 143, 0.15);
+      --accent-strong: #f3cda3;
+      --text-main: #f7f4f0;
+      --text-muted: #9c9aa3;
+      --border-subtle: rgba(255, 255, 255, 0.06);
+      --danger: #ff4b6a;
+      --shadow-soft: 0 32px 80px rgba(0, 0, 0, 0.7);
+      --radius-lg: 24px;
+      --radius-md: 16px;
+      --radius-pill: 999px;
+      --transition-fast: 200ms ease-out;
+      --transition-med: 360ms ease-out;
+      --blur: 18px;
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Poppins", sans-serif;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(circle at top, #171c27 0, #05060a 50%, #020309 100%);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 56px 14px;
+      backdrop-filter: blur(18px);
+      background: linear-gradient(to bottom, rgba(5, 6, 10, 0.95), rgba(5, 6, 10, 0.75), transparent);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .brand-logo {
+      font-size: 1.1rem;
+      letter-spacing: 0.2rem;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .nav-link {
+      padding: 6px 12px;
+      border-radius: 999px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      transition: all var(--transition-fast);
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    /* HERO & SECTIONS */
+    .hero {
+      min-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px;
+      position: relative;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      margin-bottom: 16px;
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+
+    .hero-title {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 300;
+      line-height: 1.1;
+      margin: 0 0 24px;
+    }
+
+    .text-accent {
+      color: var(--accent-strong);
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+      color: var(--text-muted);
+      max-width: 500px;
+      margin: 0 auto 32px;
+      line-height: 1.6;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 28px;
+      border-radius: var(--radius-pill);
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: all var(--transition-med);
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+
+    .primary-btn {
+      background: linear-gradient(120deg, #f3cda3, #e4b98f, #c89a63);
+      color: #20130b;
+      font-weight: 600;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 22px 60px rgba(0, 0, 0, 0.8);
+    }
+
+    .ghost-btn {
+      border-color: rgba(255, 255, 255, 0.2);
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .ghost-btn:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+    }
+
+    /* 3D CONTAINER */
+    .canvas-container {
+      width: 100%;
+      max-width: 900px;
+      height: 450px;
+      margin: 0 auto;
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: radial-gradient(circle at center, #1a1e29 0, #05060a 70%);
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .section {
+      padding: 80px 5%;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .section-header h2 {
+      font-size: 1.8rem;
+      font-weight: 300;
+      margin: 0;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* PRODUCTS */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .product-card {
+      background: var(--bg-soft);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      border: 1px solid var(--border-subtle);
+      transition: all var(--transition-med);
+      position: relative;
+      cursor: pointer;
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+      background: var(--bg-elevated);
+      border-color: rgba(228, 185, 143, 0.3);
+    }
+
+    .product-image {
+      border-radius: 12px;
+      overflow: hidden;
+      aspect-ratio: 3/4;
+      margin-bottom: 16px;
+    }
+
+    .product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .product-card:hover .product-image img {
+      transform: scale(1.04);
+    }
+
+    .product-details h3 {
+      font-size: 1rem;
+      font-weight: 500;
+      margin: 0 0 4px;
+    }
+
+    .product-category {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+    }
+
+    .product-price {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    /* NEW DYNAMIC COMPONENTS */
+    .search-container {
+      position: relative;
+      margin-right: 20px;
+    }
+
+    .search-input {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-pill);
+      padding: 8px 16px;
+      color: var(--text-main);
+      font-size: 0.9rem;
+      width: 200px;
+      transition: all var(--transition-fast);
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      width: 240px;
+    }
+
+    .header-controls {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .filter-buttons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      font-size: 0.8rem;
+      cursor: pointer;
+      text-transform: capitalize;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.filter-active {
+      border-color: var(--text-muted);
+      color: var(--text-main);
+    }
+
+    .filter-btn.filter-active {
+      background: var(--accent);
+      color: #000;
+      border-color: var(--accent);
+      font-weight: 600;
+    }
+
+    .card-badge-container {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 5;
+    }
+
+    .badge {
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .badge-new {
+      background: var(--accent);
+      color: #000;
+    }
+
+    .badge-low-stock {
+      background: var(--danger);
+      color: #fff;
+      animation: pulse-red 2s infinite;
+    }
+
+    @keyframes pulse-red {
+      0% {
+        box-shadow: 0 0 0 0 rgba(255, 75, 106, 0.4);
+      }
+
+      70% {
+        box-shadow: 0 0 0 6px rgba(255, 75, 106, 0);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(255, 75, 106, 0);
+      }
+    }
+
+    .wishlist-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(4px);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      transition: all var(--transition-fast);
+      z-index: 5;
+    }
+
+    .wishlist-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.1);
+    }
+
+    .wishlist-btn.active {
+      background: var(--danger);
+      color: #fff;
+    }
+
+    .wishlist-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    .loading-spinner {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 40px;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* PAGE SECTIONS & STYLES */
+    .page-section {
+      display: none;
+      animation: fadeIn 0.4s ease-out;
+    }
+
+    .page-section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Store Locator */
+    .store-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .store-card {
+      background: var(--bg-soft);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .store-image {
+      height: 200px;
+      width: 100%;
+      object-fit: cover;
+    }
+
+    .store-info {
+      padding: 24px;
+    }
+
+    .store-name {
+      color: var(--accent);
+      font-size: 1.2rem;
+      margin: 0 0 12px;
+    }
+
+    .store-address {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .map-container {
+      width: 100%;
+      height: 400px;
+      background: #222;
+      border-radius: var(--radius-lg);
+      margin-bottom: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      border: 1px solid var(--border-subtle);
+    }
+
+    /* About Timeline */
+    .timeline {
+      position: relative;
+      max-width: 800px;
+      margin: 60px auto;
+      padding: 20px 0;
+    }
+
+    .timeline::after {
+      content: '';
+      position: absolute;
+      width: 2px;
+      background: rgba(228, 185, 143, 0.3);
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      margin-left: -1px;
+    }
+
+    .timeline-item {
+      padding: 10px 40px;
+      position: relative;
+      width: 50%;
+      box-sizing: border-box;
+    }
+
+    .timeline-item:nth-child(odd) {
+      left: 0;
+      text-align: right;
+    }
+
+    .timeline-item:nth-child(even) {
+      left: 50%;
+    }
+
+    .timeline-content {
+      padding: 20px;
+      background: var(--bg-soft);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      position: relative;
+    }
+
+    .timeline-date {
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      background: var(--accent);
+      border-radius: 50%;
+      top: 24px;
+      right: -58px;
+      box-shadow: 0 0 0 4px rgba(228, 185, 143, 0.2);
+    }
+
+    .timeline-item:nth-child(even) .timeline-dot {
+      left: -58px;
+      right: auto;
+    }
+
+    @media (max-width: 768px) {
+      .timeline::after {
+        left: 31px;
+      }
+
+      .timeline-item {
+        width: 100%;
+        padding-left: 70px;
+        padding-right: 25px;
+      }
+
+      .timeline-item:nth-child(even) {
+        left: 0%;
+      }
+
+      .timeline-item:nth-child(odd) {
+        text-align: left;
+      }
+
+      .timeline-dot,
+      .timeline-item:nth-child(even) .timeline-dot {
+        left: 22px;
+      }
+    }
+
+    /* FAQ */
+    .faq-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      background: var(--bg-soft);
+      border: 1px solid var(--border-subtle);
+      margin-bottom: 16px;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    .faq-header {
+      padding: 20px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 500;
+      transition: background 0.3s;
+    }
+
+    .faq-header:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .faq-icon {
+      width: 20px;
+      height: 20px;
+      transition: transform 0.3s;
+      fill: var(--accent);
+    }
+
+    .faq-item.active .faq-icon {
+      transform: rotate(180deg);
+    }
+
+    .faq-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+      padding: 0 20px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .faq-item.active .faq-body {
+      padding: 0 20px 20px;
+      max-height: 500px;
+    }
+
+    /* FOOTER */
+    .footer {
+      padding: 40px 5%;
+      border-top: 1px solid var(--border-subtle);
+      background: linear-gradient(to top, #020309, #05060a);
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      margin-top: auto;
+    }
+
+    /* MODAL STYLES */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-content {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      width: 90%;
+      max-width: 900px;
+      border-radius: 20px;
+      padding: 0;
+      position: relative;
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+      overflow: hidden;
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.8);
+    }
+
+    .modal-overlay.open .modal-content {
+      transform: translateY(0);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 2rem;
+      cursor: pointer;
+      z-index: 10;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+
+    .modal-close:hover {
+      color: var(--danger);
+    }
+
+    .modal-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .modal-image-col {
+      height: 500px;
+      background: #000;
+    }
+
+    .modal-image-col img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .modal-info-col {
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .modal-title {
+      font-size: 2rem;
+      margin: 10px 0;
+      font-weight: 300;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    .modal-price {
+      font-size: 1.5rem;
+      color: var(--accent);
+      margin: 0 0 20px;
+    }
+
+    .modal-divider {
+      height: 1px;
+      background: var(--border-subtle);
+      margin: 20px 0;
+      width: 100px;
+    }
+
+    .modal-desc {
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 30px;
+    }
+
+    @media (max-width: 768px) {
+      .modal-body {
+        grid-template-columns: 1fr;
+      }
+
+      .modal-image-col {
+        height: 300px;
+      }
+
+      .modal-info-col {
+        padding: 24px;
+      }
+
+      .modal-title {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="navbar">
+    <a href="#" class="brand-logo" onclick="navigateTo('home')">FYNEST</a>
+    <nav class="nav-links">
+      <div class="search-container js-search-container">
+        <input type="text" id="searchInput" placeholder="Search products..." class="search-input">
+      </div>
+      <a onclick="navigateTo('home')" class="nav-link active" data-page="home">Shop</a>
+      <a onclick="navigateTo('about')" class="nav-link" data-page="about">About</a>
+      <a onclick="navigateTo('faq')" class="nav-link" data-page="faq">Help</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- PAGE: HOME -->
+    <div id="page-home" class="page-section active">
+      <section class="hero">
+        <div class="hero-content">
+          <span class="hero-badge">NEW COLLECTION 2024</span>
+          <h1 class="hero-title">REDEFINE <span class="text-accent">YOUR STYLE</span></h1>
+          <p class="hero-subtitle">Premium streetwear for the modern individual.</p>
+          <div class="hero-buttons">
+            <a href="https://vt.tiktok.com/ZSPfAKQNU/?page=Mall" target="_blank" class="btn primary-btn"
+              style="text-decoration: none;">SHOP NOW</a>
+            <a onclick="navigateTo('about')" class="btn ghost-btn">EXPLORE</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3D SECTION (Kept simple) -->
+      <section class="section">
+        <div class="section-header">
+          <h2>INTERACTIVE <span class="text-accent">IDENTITY</span></h2>
+        </div>
+        <div class="canvas-container" id="logo3DContainer"><canvas id="mannequinCanvas"></canvas></div>
+      </section>
+
+      <section id="collections" class="section">
+        <div class="section-header">
+          <h2>LATEST <span class="text-accent">DROPS</span></h2>
+          <div class="header-controls">
+            <div id="categoryFilters" class="filter-buttons"></div>
+          </div>
+        </div>
+        <div id="productGrid" class="product-grid"></div>
+      </section>
+    </div>
+
+    <!-- PAGE: ABOUT -->
+    <div id="page-about" class="page-section">
+      <section class="section" style="text-align: center;">
+        <div class="section-header" style="justify-content: center; text-align: center; display: block;">
+          <h2>OUR <span class="text-accent">JOURNEY</span></h2>
+          <p style="max-width: 600px; margin: 0 auto;">From a humble garage project to a defining voice in streetwear
+            culture.</p>
+        </div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content"><span class="timeline-date">2020</span>
+              <h3>The Inception</h3>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content"><span class="timeline-date">2021</span>
+              <h3>First Collection</h3>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content"><span class="timeline-date">2024</span>
+              <h3>FYNEST Era</h3>
+            </div>
+          </div>
+        </div>
+        <div
+          style="margin-top: 60px; padding: 40px; background: var(--bg-soft); border-radius: var(--radius-md); text-align:left;">
+          <h2 style="margin-bottom:20px;">VISION & MISSION</h2>
+          <p>To become the global standard for premium, accessible streetwear.</p>
+        </div>
+      </section>
+    </div>
+
+    <!-- PAGE: FAQ -->
+    <div id="page-faq" class="page-section">
+      <section class="section">
+        <div class="section-header">
+          <h2>FREQUENTLY <span class="text-accent">ASKED</span></h2>
+          <div class="search-container"><input type="text" id="faqSearch" placeholder="Search questions..."
+              class="search-input" style="width: 250px;"></div>
+        </div>
+        <div class="faq-container" id="faqList">
+          <div class="faq-item">
+            <div class="faq-header"><span>How long does shipping take?</span><svg class="faq-icon" viewBox="0 0 24 24">
+                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
+              </svg></div>
+            <div class="faq-body">
+              <p>Orders are processed within 24 hours. Standard shipping takes 2-3 business days.</p>
+            </div>
+          </div>
+          <!-- More items hardcoded/injected mostly via HTML structure here for simplicity -->
+          <div class="faq-item">
+            <div class="faq-header"><span>What is your return policy?</span><svg class="faq-icon" viewBox="0 0 24 24">
+                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
+              </svg></div>
+            <div class="faq-body">
+              <p>We accept returns within 7 days of delivery for unworn items.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- PAGE: STORES -->
+    <div id="page-stores" class="page-section">
+      <section class="section">
+        <div class="section-header">
+          <h2>FIND <span class="text-accent">US</span></h2>
+          <p>Visit our physical locations</p>
+        </div>
+        <div class="map-container">
+          <p>[ Interactive Map Interface ]</p>
+        </div>
+        <div id="storeGrid" class="store-grid"></div>
+      </section>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <div class="brand-logo" style="margin-bottom: 20px; font-size: 1.5rem;">FYNEST</div>
+    <div style="margin-bottom: 20px; display: flex; gap: 20px; justify-content: center; font-size: 0.9rem;">
+      <a onclick="navigateTo('stores')" style="text-decoration: underline;">Store Locator</a>
+      <a onclick="navigateTo('faq')" style="text-decoration: underline;">FAQ & Help</a>
+      <a onclick="navigateTo('about')" style="text-decoration: underline;">About Us</a>
+    </div>
+    <div style="margin-bottom: 20px;">
+      <span style="border: 1px solid #333; padding: 2px 6px; border-radius: 4px; margin: 0 4px;">VISA</span>
+      <span style="border: 1px solid #333; padding: 2px 6px; border-radius: 4px; margin: 0 4px;">MC</span>
+    </div>
+    <p class="footer-text">&copy; 2024 FYNEST CLOTHING. All rights reserved.</p>
+  </footer>
+
+  <!-- PRODUCT DETAIL MODAL -->
+  <div id="productModal" class="modal-overlay" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModal(event)">&times;</button>
+      <div class="modal-body">
+        <div class="modal-image-col">
+          <img id="modalImage" src="" alt="Product">
+        </div>
+        <div class="modal-info-col">
+          <span id="modalCategory" class="hero-badge">CATEGORY</span>
+          <h2 id="modalTitle" class="modal-title">Product Title</h2>
+          <p id="modalPrice" class="modal-price">IDR 000.000</p>
+          <div class="modal-divider"></div>
+          <p id="modalDesc" class="modal-desc">Description goes here.</p>
+
+          <div class="modal-actions">
+            <a href="https://vt.tiktok.com/ZSPfAKQNU/?page=Mall" target="_blank" class="btn primary-btn"
+              style="width: 100%; text-decoration: none;">BUY NOW</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- MOCK DATA (Hardcoded for Single File Portability) ---
+    const DB_PRODUCTS = [
+      { id: 1, name: "FYNEST T-SHIRT BOXY FIT 20S WHITE FRUIT.", category: "T-SHIRTS", price: 140000, image: "images/product-fruit.png", stock: 15, isNew: true, description: "Premium Boxy Fit T-Shirt. 20S Cotton Combed. High quality plastisol print.", link: "https://vt.tokopedia.com/t/ZSHwGtWoRr7hv-9L38K/" },
+      { id: 2, name: "FYNEST T-SHIRT BOXY FIT 20S WHITE CALL ME.", category: "T-SHIRTS", price: 140000, image: "images/product-callme.png", stock: 10, isNew: true, description: "Premium Boxy Fit T-Shirt. 20S Cotton Combed. Minimalist design.", link: "https://vt.tokopedia.com/t/ZSHwGtWna1UFN-b5W2e/" },
+      { id: 3, name: "FYNEST T-SHIRT BOXY FIT 20S WHITE ANGEL.", category: "T-SHIRTS", price: 140000, image: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?q=80&w=1964&auto=format&fit=crop", stock: 8, isNew: true, description: "Premium Boxy Fit T-Shirt. 20S Cotton Combed. Iconic Angel graphic.", link: "https://vt.tokopedia.com/t/ZSHwGtW6qQd5x-9GXfl/" },
+      { id: 4, name: "STREET CARGO PANTS", category: "BOTTOMS", price: 399000, image: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=1897&auto=format&fit=crop", stock: 20, isNew: false, description: "Multi-pocket functional cargo pants tailored for movement. Reinforced stitching at stress points." },
+      { id: 5, name: "URBAN BEANIE", category: "ACCESSORIES", price: 129000, image: "https://images.unsplash.com/photo-1576036201618-bccd0cae7460?q=80&w=2071&auto=format&fit=crop", stock: 2, isNew: false, description: "Minimalist ribbed knit beanie. The perfect finishing touch for any street outfit." },
+      { id: 6, name: "GRAPHIC TEE - NEON", category: "T-SHIRTS", price: 279000, image: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=1887&auto=format&fit=crop", stock: 10, isNew: true, description: "High-definition DTG print featuring our signature neon noir aesthetics. Pre-shrunk cotton." }
+    ];
+
+    const DB_CATEGORIES = [
+      { id: "all", name: "All Collection" },
+      { id: "t-shirts", name: "T-Shirts" },
+      { id: "outerwear", name: "Outerwear" },
+      { id: "bottoms", name: "Bottoms" },
+      { id: "accessories", "name": "Accessories" }
+    ];
+
+    const DB_STORES = [
+      { id: 1, name: "FYNEST Flagship Store", address: "Jl. Senopati No. 45, Jakarta", image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2070&auto=format&fit=crop" },
+      { id: 2, name: "FYNEST Concept Bandung", address: "Jl. Riau No. 120, Bandung", image: "https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?q=80&w=2070&auto=format&fit=crop" }
+    ];
+
+    // --- GENERIC SPA NAVIGATION ---
+    function navigateTo(pageId) {
+      // Hide all pages
+      document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
+      // Show target
+      document.getElementById(`page-${pageId}`).classList.add('active');
+
+      // Update nav state
+      document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+      const activeLink = document.querySelector(`.nav-link[data-page="${pageId}"]`);
+      if (activeLink) activeLink.classList.add('active');
+
+      // Scroll to top
+      window.scrollTo(0, 0);
+    }
+
+    // --- CORE LOGIC ---
+    let activeCategory = 'all';
+    let wishlist = JSON.parse(localStorage.getItem('fynest_wishlist')) || [];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderFilters();
+      renderProducts(DB_PRODUCTS);
+      renderStores();
+      setupSearch();
+      setupFAQ();
+      initThreeJS();
+    });
+
+    function renderProducts(data) {
+      const grid = document.getElementById('productGrid');
+      grid.innerHTML = '';
+      if (data.length === 0) {
+        grid.innerHTML = '<p class="loading-spinner">No products found.</p>';
+        return;
+      }
+
+      data.forEach(product => {
+        const isWishlisted = wishlist.includes(product.id);
+        const isLowStock = product.stock < 5;
+
+        const card = document.createElement('article');
+        card.className = 'product-card';
+        card.onclick = () => openModal(product); // Add Click Event
+
+        card.innerHTML = `
+                <div class="card-badge-container">
+                    ${product.isNew ? '<span class="badge badge-new">New</span>' : ''}
+                    ${isLowStock ? '<span class="badge badge-low-stock">Low Stock</span>' : ''}
+                </div>
+                <div class="product-image"><img src="${product.image}" loading="lazy" alt="${product.name}"></div>
+                <div class="product-details">
+                    <h3 class="product-title">${product.name}</h3>
+                    <span class="product-category">${product.category}</span>
+                    <span class="product-price">IDR ${product.price.toLocaleString('id-ID')}</span>
+                    <a href="${product.link || 'https://vt.tiktok.com/ZSPfAKQNU/?page=Mall'}" target="_blank" class="btn ghost-btn" style="width: 100%; margin-top: 12px; font-size: 0.8rem; text-decoration: none;" onclick="event.stopPropagation()">BUY NOW</a>
+                </div>
+            `;
+        grid.appendChild(card);
+      });
+    }
+
+    // --- MODAL LOGIC ---
+    function openModal(product) {
+      document.getElementById('modalImage').src = product.image;
+      document.getElementById('modalCategory').textContent = product.category;
+      document.getElementById('modalTitle').textContent = product.name;
+      document.getElementById('modalPrice').textContent = `IDR ${product.price.toLocaleString('id-ID')}`;
+      // Fallback description if missing in DB
+      document.getElementById('modalDesc').textContent = product.description || "Designed for the bold. Premium quality materials tailored for a modern fit.";
+      
+      const btnBuy = document.querySelector('#productModal .modal-actions a');
+      if(btnBuy) {
+        btnBuy.href = product.link || 'https://vt.tiktok.com/ZSPfAKQNU/?page=Mall';
+      }
+
+      const modal = document.getElementById('productModal');
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    }
+
+    function closeModal(e) {
+      // Close if clicking overlay or close button
+      if (!e || e.target.classList.contains('modal-overlay') || e.target.classList.contains('modal-close')) {
+        document.getElementById('productModal').classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    }
+
+    function renderFilters() {
+      const container = document.getElementById('categoryFilters');
+      container.innerHTML = '';
+      DB_CATEGORIES.forEach(cat => {
+        const btn = document.createElement('button');
+        btn.className = `filter-btn ${cat.id === activeCategory ? 'filter-active' : ''}`;
+        btn.textContent = cat.name;
+        btn.onclick = () => filterByCategory(cat.id);
+        container.appendChild(btn);
+      });
+    }
+
+    function renderStores() {
+      const grid = document.getElementById('storeGrid');
+      if (!grid) return;
+      DB_STORES.forEach(store => {
+        grid.innerHTML += `
+                <article class="store-card">
+                    <img src="${store.image}" alt="${store.name}" class="store-image">
+                    <div class="store-info">
+                        <h3 class="store-name">${store.name}</h3>
+                        <p class="store-address">${store.address}</p>
+                        <a href="#" class="btn ghost-btn" style="width:100%">Get Directions</a>
+                    </div>
+                </article>
+            `;
+      });
+    }
+
+    function filterByCategory(categoryId) {
+      activeCategory = categoryId;
+      document.querySelectorAll('.filter-btn').forEach(b => {
+        b.classList.toggle('filter-active', b.textContent === DB_CATEGORIES.find(c => c.id === categoryId).name);
+      });
+
+      // Also check search
+      const term = document.getElementById('searchInput').value.toLowerCase();
+      let filtered = DB_PRODUCTS;
+      if (categoryId !== 'all') filtered = filtered.filter(p => p.category.toLowerCase() === categoryId.toLowerCase());
+      if (term) filtered = filtered.filter(p => p.name.toLowerCase().includes(term));
+
+      renderProducts(filtered);
+    }
+
+    function setupSearch() {
+      const input = document.getElementById('searchInput');
+      let timer;
+      input.addEventListener('input', (e) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          filterByCategory(activeCategory); // Re-run filter with current Category + new Search Term
+        }, 300);
+      });
+    }
+
+    function setupFAQ() {
+      document.querySelectorAll('.faq-header').forEach(header => {
+        header.addEventListener('click', () => {
+          header.parentElement.classList.toggle('active');
+        });
+      });
+
+      // FAQ Search
+      const searchInput = document.getElementById('faqSearch');
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          const term = e.target.value.toLowerCase();
+          document.querySelectorAll('.faq-item').forEach(item => {
+            const txt = item.innerText.toLowerCase();
+            item.style.display = txt.includes(term) ? 'block' : 'none';
+          });
+        });
+      }
+    }
+
+    window.toggleWishlist = function (id, btnElement) {
+      const index = wishlist.indexOf(id);
+      if (index === -1) { wishlist.push(id); btnElement.classList.add('active'); }
+      else { wishlist.splice(index, 1); btnElement.classList.remove('active'); }
+      localStorage.setItem('fynest_wishlist', JSON.stringify(wishlist));
+    };
+
+    function initThreeJS() {
+      // Minimal ThreeJS boilerplate placeholder
+      const container = document.getElementById('logo3DContainer');
+      if (!container) return;
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+      const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('mannequinCanvas'), alpha: true, antialias: true });
+      renderer.setSize(container.clientWidth, container.clientHeight);
+
+      const geo = new THREE.IcosahedronGeometry(1.5, 0);
+      const mat = new THREE.MeshStandardMaterial({ color: 0xe4b98f, metalness: 0.9, roughness: 0.1, wireframe: true });
+      const cube = new THREE.Mesh(geo, mat);
+      scene.add(cube);
+
+      const light = new THREE.DirectionalLight(0xffffff, 2);
+      light.position.set(2, 2, 5); scene.add(light);
+      scene.add(new THREE.AmbientLight(0x404040));
+      camera.position.z = 4;
+
+      function animate() { requestAnimationFrame(animate); cube.rotation.x += 0.005; cube.rotation.y += 0.005; renderer.render(scene, camera); }
+      animate();
+      window.addEventListener('resize', () => {
+        camera.aspect = container.clientWidth / container.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(container.clientWidth, container.clientHeight);
+      });
+    }
+  </script>
+</body>
+
+</html>

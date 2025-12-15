@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "name": "OVERSIZED TEE - BLACK",
+    "category": "T-SHIRTS",
+    "price": 249000,
+    "image": "https://images.unsplash.com/photo-1576566588028-4147f3842f27?q=80&w=1964&auto=format&fit=crop",
+    "stock": 15,
+    "description": "Premium heavy-weight cotton oversized tee with drop shoulders.",
+    "isNew": true
+  },
+  {
+    "id": 2,
+    "name": "BOMBER JACKET - OLIVE",
+    "category": "OUTERWEAR",
+    "price": 599000,
+    "image": "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=1936&auto=format&fit=crop",
+    "stock": 3,
+    "description": "Classic aviator style bomber jacket with water-resistant shell.",
+    "isNew": false
+  },
+  {
+    "id": 3,
+    "name": "ESSENTIAL HOODIE - GREY",
+    "category": "OUTERWEAR",
+    "price": 449000,
+    "image": "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=2070&auto=format&fit=crop",
+    "stock": 8,
+    "description": "Soft fleece hoodie for everyday comfort and style.",
+    "isNew": true
+  },
+  {
+    "id": 4,
+    "name": "STREET CARGO PANTS",
+    "category": "BOTTOMS",
+    "price": 399000,
+    "image": "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=1897&auto=format&fit=crop",
+    "stock": 20,
+    "description": "Functional cargo pants with multiple pockets and adjustable cuffs.",
+    "isNew": false
+  },
+  {
+    "id": 5,
+    "name": "URBAN BEANIE",
+    "category": "ACCESSORIES",
+    "price": 129000,
+    "image": "https://images.unsplash.com/photo-1576036201618-bccd0cae7460?q=80&w=2071&auto=format&fit=crop",
+    "stock": 2,
+    "description": "Knitted ribbed beanie to clear your head in style.",
+    "isNew": false
+  },
+  {
+    "id": 6,
+    "name": "GRAPHIC TEE - NEON",
+    "category": "T-SHIRTS",
+    "price": 279000,
+    "image": "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=1887&auto=format&fit=crop",
+    "stock": 10,
+    "description": "Bold graphic print tee inspired by neon lights.",
+    "isNew": true
+  }
+]

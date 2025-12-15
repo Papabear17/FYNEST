@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FYNEST Admin</title>
+  <link rel="stylesheet" href="admin_style.css" />
+</head>
+
+<body>
+  <div class="admin-shell">
+    <!-- SIMPLE LOGIN GATE -->
+    <div class="login-overlay" id="loginOverlay">
+      <div class="login-card">
+        <div class="login-header">
+          <div class="brand-mark">FY</div>
+          <div class="brand-text">
+            <span class="brand-name">FYNEST</span>
+            <span class="brand-sub">Admin Access</span>
+          </div>
+        </div>
+        <form id="loginForm" class="login-form" onsubmit="return false;">
+          <div class="field full">
+            <label for="loginUsername">Username</label>
+            <input id="loginUsername" type="text" placeholder="admin" required />
+          </div>
+          <div class="field full">
+            <label for="loginPassword">Password</label>
+            <input id="loginPassword" type="password" placeholder="••••••••" required />
+          </div>
+          <p class="helper">
+            Credentials: <strong>wili</strong> / <strong>wiliam</strong>
+          </p>
+          <button type="submit" class="btn primary full-width">LOGIN</button>
+          <div style="text-align: center; margin-top: 15px;">
+            <a href="index.html" style="color: #666; font-size: 0.8rem; text-decoration: none;">&larr; Back to
+              Website</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <header class="admin-header">
+      <div class="brand">
+        <div class="brand-mark">FY</div>
+        <div class="brand-text">
+          <span class="brand-name">FYNEST</span>
+          <span class="brand-sub">Admin Studio</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <button id="btnLogout" class="pill-link pill-logout">LOGOUT</button>
+        <a href="index.html" class="pill-link">BACK TO HOME</a>
+      </div>
+    </header>
+
+    <main class="admin-main">
+      <section class="panel panel-form">
+        <div class="panel-header">
+          <h2 id="formTitle">Create Look</h2>
+          <p>Tambah atau edit look; semua perubahan otomatis tersimpan ke browser (localStorage).</p>
+        </div>
+        <form id="productForm" class="form-grid">
+          <input type="hidden" id="fieldId" />
+
+          <div class="field">
+            <label for="fieldName">Nama Look</label>
+            <input id="fieldName" type="text" placeholder="Noir Tailored Suit" required />
+          </div>
+
+          <div class="field">
+            <label for="fieldCategory">Kategori</label>
+            <input id="fieldCategory" type="text" placeholder="Evening / Gown / Outerwear" />
+          </div>
+
+          <div class="field">
+            <label for="fieldPrice">Harga (IDR)</label>
+            <input id="fieldPrice" type="number" min="0" step="10000" placeholder="12000000" />
+          </div>
+
+          <div class="field">
+            <label for="fieldColorStory">Color Story</label>
+            <input id="fieldColorStory" type="text" placeholder="Deep Noir" />
+          </div>
+
+          <div class="field">
+            <label for="fieldSeason">Season</label>
+            <input id="fieldSeason" type="text" placeholder="AW 24/25" />
+          </div>
+
+          <div class="field full">
+            <label for="fieldCoverImage">URL Cover Image</label>
+            <input id="fieldCoverImage" type="url" placeholder="https://images.pexels.com/..." />
+          </div>
+
+          <div class="field full">
+            <label for="fieldCoverFile">Upload Cover Image (File Explorer)</label>
+            <input id="fieldCoverFile" type="file" accept="image/*" />
+            <small class="helper">
+              Jika Anda memilih file, gambar akan disimpan di browser (base64) dan
+              otomatis mengisi field URL di atas.
+            </small>
+          </div>
+
+          <div class="field full">
+            <label for="fieldGallery">URL Gallery (pisahkan dengan koma)</label>
+            <textarea id="fieldGallery" rows="2" placeholder="https://...1, https://...2"></textarea>
+          </div>
+
+          <div class="field full">
+            <label for="fieldGalleryFiles">Upload Gallery Images (bisa pilih banyak)</label>
+            <input id="fieldGalleryFiles" type="file" accept="image/*" multiple />
+            <small class="helper">
+              Semua gambar yang dipilih akan diubah menjadi URL base64 dan ditambahkan ke field URL Gallery.
+            </small>
+          </div>
+
+          <div class="field full">
+            <label for="fieldShortDescription">Short Description</label>
+            <textarea id="fieldShortDescription" rows="2" placeholder="1–2 kalimat singkat tentang look."></textarea>
+          </div>
+
+          <div class="field full">
+            <label for="fieldDescription">Deskripsi Penuh</label>
+            <textarea id="fieldDescription" rows="3"
+              placeholder="Narasi detail tentang siluet, bahan, dan momen pemakaian."></textarea>
+          </div>
+
+          <div class="field full">
+            <label for="fieldTags">Tags (pisahkan dengan koma)</label>
+            <input id="fieldTags" type="text" placeholder="Signature, Evening, Tailoring" />
+          </div>
+
+          <div class="field checkbox-row">
+            <label class="checkbox">
+              <input id="fieldFeatured" type="checkbox" />
+              <span> Jadikan Signature / Featured Look</span>
+            </label>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn primary" id="btnSave">Save Look</button>
+            <button type="button" class="btn ghost" id="btnReset">Reset Form</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel panel-3d">
+        <div class="panel-header">
+          <h2>3D Model Settings</h2>
+          <p>Upload foto manekin untuk mengganti tampilan 3D di homepage. Jika tidak diisi, akan menggunakan manekin 3D
+            default.</p>
+        </div>
+        <div class="form-grid">
+          <div class="field full">
+            <label for="field3DModelImage">URL Foto 3D Model</label>
+            <input id="field3DModelImage" type="url"
+              placeholder="https://images.pexels.com/... atau kosongkan untuk pakai 3D default" />
+          </div>
+          <div class="field full">
+            <label for="field3DModelFile">Upload Foto 3D Model (File Explorer)</label>
+            <input id="field3DModelFile" type="file" accept="image/*" />
+            <small class="helper">
+              Pilih foto manekin/baju dari komputer. Foto akan disimpan di browser (base64) dan otomatis mengisi field
+              URL di atas.
+            </small>
+          </div>
+          <div class="field full">
+            <button type="button" class="btn ghost" id="btnRemove3D">Hapus Foto 3D (Kembali ke 3D Default)</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel panel-table">
+        <div class="panel-header">
+          <h2>Look Library</h2>
+          <p>Daftar semua look yang saat ini tampil di website.</p>
+        </div>
+        <div class="toolbar">
+          <input type="search" id="searchInput" placeholder="Cari nama / kategori / color story..." />
+          <button class="btn ghost" id="btnSeed">Reset ke Sample Data</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Nama</th>
+                <th>Kategori</th>
+                <th>Harga</th>
+                <th>Season</th>
+                <th>Featured</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="productTableBody">
+              <!-- Baris produk diisi dinamis -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+  <script src="admin_script.js"></script>
+</body>
+
+</html>
